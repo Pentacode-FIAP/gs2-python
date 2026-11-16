@@ -16,6 +16,10 @@ O Vizi e um mapa colaborativo da cidade de Sao Paulo. O morador reporta problema
 
 Este programa em Python simula o "cerebro" do Vizi no terminal: cadastra relatos, confirma, resolve e resume por bairro. Os sensores (ESP32) e o mapa visual fazem parte das outras entregas do projeto.
 
+## Ligacao com o tema CitizenTech
+
+O tema da Global Solution e usar tecnologia para melhorar a vida do cidadao na cidade. O Vizi faz isso dando voz ao morador: ele avisa o que esta faltando no seu bairro, a comunidade confirma, e o historico organizado ajuda a cobrar solucoes de quem presta o servico. A tecnologia aproxima o cidadao da cidade e transforma a experiencia de cada morador em informacao util para todos.
+
 ## Como rodar
 
 1. Ter o Python 3 instalado.
@@ -62,9 +66,3 @@ O programa cria sozinho o arquivo `relatos.json` (dados salvos) e, na opcao 6, o
 ## O que o programa usa
 
 Menu com `while True`, validacao de entradas, `try/except` (horas digitadas), `if/elif/else`, `while` e `for`, funcoes com parametros e retorno, listas, tuplas, dicionarios e dicionarios aninhados, arquivos JSON e CSV.
-
-## Limitacoes
-
-- Nao ha expiracao automatica de relatos (exigiria data e hora).
-- Nao ha mapa visual nem leitura de sensores reais neste programa.
-- Os dados simulados nao representam a realidade.
