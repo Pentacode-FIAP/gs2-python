@@ -152,18 +152,18 @@ def criar_relato(relatos: list, tipo: str, bairro: str, gravidade: str, fonte: s
     return relato
 
 
-def calcular_resumo(relatos: list) -> dict:
-    """Soma ocorrencias e horas por bairro e por tipo (dicionario dentro de dicionario)."""
-    resumo = {}
+def calcular_resumo(relatos: list) -> list:
+    """Soma ocorrencias e horas por bairro e tipo. Cada item e [bairro, tipo, ocorrencias, horas]."""
+    resumo = []
     for relato in relatos:
-        bairro = relato["bairro"]
-        tipo = relato["tipo"]
-        if bairro not in resumo:
-            resumo[bairro] = {}
-        if tipo not in resumo[bairro]:
-            resumo[bairro][tipo] = {"ocorrencias": 0, "horas": 0.0}
-        resumo[bairro][tipo]["ocorrencias"] += 1
-        resumo[bairro][tipo]["horas"] += relato["horas"]
+        achou = False
+        for item in resumo:
+            if item[0] == relato["bairro"] and item[1] == relato["tipo"]:
+                item[2] += 1
+                item[3] += relato["horas"]
+                achou = True
+        if not achou:
+            resumo.append([relato["bairro"], relato["tipo"], 1, relato["horas"]])
     return resumo
 
 
@@ -241,12 +241,8 @@ def mostrar_resumo(relatos: list) -> None:
     if len(resumo) == 0:
         print("Ainda nao ha relatos.")
         return
-    for bairro in resumo:
-        print(bairro)
-        for tipo in resumo[bairro]:
-            ocorrencias = resumo[bairro][tipo]["ocorrencias"]
-            horas = resumo[bairro][tipo]["horas"]
-            print(f"   {tipo}: {ocorrencias} ocorrencia(s), {horas:.1f} h sem servico")
+    for item in resumo:
+        print(f"{item[0]} | {item[1]}: {item[2]} ocorrencia(s), {item[3]:.1f} h sem servico")
 
 
 def gerar_relatorio(relatos: list) -> str:
@@ -257,11 +253,8 @@ def gerar_relatorio(relatos: list) -> str:
     with open(ARQUIVO_CSV, "w", newline="", encoding="utf-8") as arquivo:
         escritor = csv.writer(arquivo)
         escritor.writerow(["bairro", "tipo", "ocorrencias", "horas_sem_servico"])
-        for bairro in resumo:
-            for tipo in resumo[bairro]:
-                ocorrencias = resumo[bairro][tipo]["ocorrencias"]
-                horas = resumo[bairro][tipo]["horas"]
-                escritor.writerow([bairro, tipo, ocorrencias, horas])
+        for item in resumo:
+            escritor.writerow([item[0], item[1], item[2], item[3]])
     return f"Relatorio salvo em {ARQUIVO_CSV}."
 
 
